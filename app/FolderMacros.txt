@@ -1,0 +1,43 @@
+# Macro
+MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar)
+  IF(MSVC)
+    GET_FILENAME_COMPONENT(PrecompiledBasename ${PrecompiledHeader} NAME_WE)
+    SET(PrecompiledBinary "${CMAKE_CURRENT_BINARY_DIR}/${PrecompiledBasename}.pch")
+    SET(Sources ${${SourcesVar}})
+
+    SET_SOURCE_FILES_PROPERTIES(${PrecompiledSource}
+                                PROPERTIES COMPILE_FLAGS "/Yc\"${PrecompiledHeader}\" /Fp\"${PrecompiledBinary}\""
+                                           OBJECT_OUTPUTS "${PrecompiledBinary}")
+    SET_SOURCE_FILES_PROPERTIES(${Sources}
+                                PROPERTIES COMPILE_FLAGS "/Yu\"${PrecompiledBinary}\" /FI\"${PrecompiledBinary}\" /Fp\"${PrecompiledBinary}\""
+                                           OBJECT_DEPENDS "${PrecompiledBinary}")  
+    # Add precompiled header to SourcesVar
+    LIST(APPEND ${SourcesVar} ${PrecompiledSource})
+  ENDIF(MSVC)
+ENDMACRO(ADD_MSVC_PRECOMPILED_HEADER)
+
+# Macro
+MACRO(SOURCE_GROUP_BY_FOLDER curdir)
+    FILE(GLOB children RELATIVE ${PROJECT_SOURCE_DIR}/${curdir} ${PROJECT_SOURCE_DIR}/${curdir}/*)
+    foreach(child ${children})
+        if(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            SOURCE_GROUP_BY_FOLDER(${curdir}/${child})
+        else()
+            STRING(FIND ${child} ".h" is_header_file)
+            STRING(FIND ${child} ".cpp" is_source_file)
+            if(${is_header_file} GREATER -1)
+                STRING(REPLACE "/" "\\" groupname ${curdir})
+                STRING(REPLACE "." "Header files" groupname ${groupname})
+                SOURCE_GROUP(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            elseif(${is_source_file} GREATER -1)
+                STRING(REPLACE "/" "\\" groupname ${curdir})
+                STRING(REPLACE "." "Source files" groupname ${groupname})
+                SOURCE_GROUP(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            else()
+                STRING(REPLACE "/" "\\" groupname ${curdir})
+                STRING(REPLACE "." "Resource files" groupname ${groupname})
+                SOURCE_GROUP(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            endif()
+        endif()
+    endforeach()
+ENDMACRO(SOURCE_GROUP_BY_FOLDER)

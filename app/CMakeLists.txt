@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.22.0)
+
+#
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+include(FolderMacros.txt)
+
+#
+set(CMAKE_CONFIGURATION_TYPES
+    "Debug;Release"
+    CACHE STRING ""
+    FORCE)
+
+set(
+  HIN_ADDITIONAL_LINKER_FLAGS
+  "/INCREMENTAL:NO /MACHINE:X64 /SUBSYSTEM:WINDOWS /DYNAMICBASE /LARGEADDRESSAWARE"
+  )
+
+set(CMAKE_SHARED_LINKER_FLAGS_DEBUG
+  "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} /debug ${HIN_ADDITIONAL_LINKER_FLAGS}")
+set(CMAKE_SHARED_LINKER_FLAGS_RELEASE
+    "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} ${HIN_ADDITIONAL_LINKER_FLAGS}")
+
+set(COMMON_HIN_CXX_FLAGS "/MP;/std:c++20;")
+ 
+#
+# Project settings
+#
+
+project(Interview)
+
+set(HIN_TARGET "HIN")
+set(HIN_STATIC_TARGET "HIN_static")
+
+get_filename_component(NANOFRAZOR_INSTALL_PATH "${CMAKE_CURRENT_LIST_DIR}/../"
+                       ABSOLUTE)
+
+#
+
+add_subdirectory(lib)

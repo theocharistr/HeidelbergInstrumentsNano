@@ -1,0 +1,44 @@
+//! @file NFLIBResource.rc
+
+//-----------------------------------------------------------------------------
+// Microsoft Visual C++ generated resource script
+//-----------------------------------------------------------------------------
+
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+
+//-----------------------------------------------------------------------------
+1 VERSIONINFO
+  FILEVERSION        3,6,0
+  PRODUCTVERSION     3,6,0
+  FILEFLAGSMASK      0x3fL
+#ifdef _DEBUG
+  FILEFLAGS          0x1L
+#else
+  FILEFLAGS          0x0L
+#endif
+  FILEOS             0x40004L
+  FILETYPE           0x2L
+  FILESUBTYPE        0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileVersion", "3.6.0\0"
+            VALUE "ProductVersion", "3.6.0\0"
+            VALUE "OriginalFilename", "NFLIB.dll\0"
+            VALUE "InternalName", "\0"
+            VALUE "FileDescription", "NanoFrazor LIB\0"
+            VALUE "Comments", "\0"
+            VALUE "ProductName", "NanoFrazor\0"
+            VALUE "CompanyName", "Heidelberg Instruments Nano AG\0"
+            VALUE "LegalCopyright", "Copyright (C) Heidelberg Instruments Nano AG\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 0x04B0
+    END
+END
